@@ -48,7 +48,9 @@ export default function ButtonElement({ data }) {
   return (
     <Box onClick={() => setOn(!on)} sx={{ display: "flex", alignItems: "center", mr: 3 }}>
       <AntSwitch defaultChecked inputProps={{ "aria-label": "ant design" }} />
-      <Typography sx={{ ml: 1 }}>{on ? "켜기" : "끄기"}</Typography>
+      <Typography align="center" sx={{ ml: 1, fontSize: "0.8em" }}>
+        {on ? "켜기" : "끄기"}
+      </Typography>
     </Box>
   );
 }

@@ -1,6 +1,6 @@
-import { Autocomplete, Avatar, IconButton, MenuItem, TextField, Typography } from "@mui/material";
+import { Autocomplete, Avatar, MenuItem, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 
 export default function SwapSelector() {
