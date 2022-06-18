@@ -1,10 +1,9 @@
 import { Autocomplete, Avatar, IconButton, MenuItem, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 
 import SwapVertIcon from "@mui/icons-material/SwapVert";
-import SwapSelector from "./SwapSelector";
 
 export default function SwapElement() {
   const { isLoading, data } = useQuery("allCoins", () => {
@@ -12,19 +11,11 @@ export default function SwapElement() {
   });
   const [fromValue, setFromValue] = useState({});
   const [toValue, setToValue] = useState({});
-  const [top, setTop] = useState(true);
-  const [bottom, setBottom] = useState(false);
-  //   useEffect(() => {
-  //     const value = fromValue;
-  //     setFromValue(toValue);
-  //     setToValue(value);
-  //   }, [toValue, fromValue]);
+
   const transferClick = () => {
     const value = fromValue;
-    console.log(value);
     setFromValue({ ...toValue });
     setToValue({ ...value });
-    console.log(toValue);
   };
   return (
     <>
@@ -62,7 +53,6 @@ export default function SwapElement() {
                     {...params}
                     inputProps={{
                       ...params.inputProps,
-                      value: fromValue,
                     }}
                   />
                 )}
@@ -88,7 +78,6 @@ export default function SwapElement() {
               Freesolo
               value={toValue.symbol}
               onChange={(event, newValue) => {
-                console.log(newValue);
                 setToValue(newValue);
               }}
               disableClearable
@@ -111,7 +100,6 @@ export default function SwapElement() {
                   {...params}
                   inputProps={{
                     ...params.inputProps,
-                    value: toValue,
                   }}
                 />
               )}
