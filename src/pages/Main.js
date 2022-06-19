@@ -146,7 +146,7 @@ export default function Main() {
       </MainContainer>
       <TabContext value={value}>
         <Box sx={{ width: "100%", borderColor: "divider" }}>
-          <TabList sx={{ backgroundColor: "#FFF", borderBottom: "1px solid #ced4da", mb: 0, pb: 0 }} onChange={handleChange} aria-label="lab API tabs example">
+          <TabList sx={{ backgroundColor: "#FFF", borderBottom: "1px solid #ced4da", mb: 0, pb: 0 }} onChange={handleChange}>
             <Tab sx={{ maxWidth: "50vw", width: "50%", mb: 0 }} label="자산" value="1" />
             <Tab sx={{ maxWidth: "50vw", width: "50%", mb: 0 }} label="활동" value="2" />
           </TabList>

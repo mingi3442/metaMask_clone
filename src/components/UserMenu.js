@@ -34,13 +34,13 @@ export default function UserMenu() {
 
   const state = useSelector((state) => state.setAccount);
   const dispatch = useDispatch();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [accountEl, setAccountEl] = useState(null);
+  const open = Boolean(accountEl);
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAccountEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorEl(null);
+    setAccountEl(null);
   };
 
   return (
@@ -51,8 +51,7 @@ export default function UserMenu() {
         </IconButton>
       </Tooltip>
       <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
+        anchorEl={accountEl}
         open={open}
         onClose={handleClose}
         onClick={handleClose}

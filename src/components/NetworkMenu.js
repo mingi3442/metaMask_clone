@@ -47,16 +47,16 @@ export default function NetworkMenu() {
     },
   ];
   const [selected, setSelected] = useState(netWorks[0]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [networkEl, setNetworkEl] = useState(null);
+  const open = Boolean(networkEl);
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setNetworkEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorEl(null);
+    setNetworkEl(null);
   };
   const selectNetwork = (event) => {
-    setSelected(netWorks[event.target.value]);
+    setSelected(netWorks[event.currentTarget.value]);
   };
   return (
     <>
@@ -68,8 +68,7 @@ export default function NetworkMenu() {
         </Button>
       </Tooltip>
       <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
+        anchorEl={networkEl}
         open={open}
         onClose={handleClose}
         onClick={handleClose}

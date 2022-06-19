@@ -1,7 +1,6 @@
-import { Link, List, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Box, Link, List, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { ArrowForwardIos } from "@mui/icons-material/";
 import styled from "styled-components";
-import { Box } from "@mui/system";
 import MainBottom from "./MainBottom";
 
 const Container = styled.div`
@@ -44,9 +43,9 @@ export default function Asset({ state }) {
             토큰이 보이지 않나요?
           </Typography>
           <Typography align="center">
-            <Link sx={{ fontSize: "0.9em", textDecoration: "none" }}>새로 고침 목록 </Link>
+            <Link sx={{ fontSize: "0.9em", textDecoration: "none", cursor: "pointer" }}>새로 고침 목록 </Link>
             또는
-            <Link sx={{ fontSize: "0.9em", textDecoration: "none" }}>토큰 가져오기</Link>
+            <Link sx={{ fontSize: "0.9em", textDecoration: "none", cursor: "pointer" }}>토큰 가져오기</Link>
           </Typography>
         </Box>
       </TopContents>

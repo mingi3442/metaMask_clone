@@ -1,7 +1,6 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
 import { Container } from "@mui/system";
 import styled from "styled-components";
-
 import UserMenu from "./UserMenu";
 import NetworkMenu from "./NetworkMenu";
 import { Link } from "react-router-dom";

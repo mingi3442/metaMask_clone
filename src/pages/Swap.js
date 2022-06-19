@@ -1,12 +1,11 @@
-import { Button, Container, Link, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Button, Container, Link, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import styled from "styled-components";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ButtonElement from "../components/ButtonElement";
 import SwapElement from "../components/SwapElement";
 import { useQuery } from "react-query";
+import { Info, ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
 const TopContainer = styled.div`
   background-color: #e9ecef;
   display: flex;
@@ -23,23 +22,25 @@ const SwapContainer = styled.div`
   align-items: center;
   width: 100%;
 `;
+const slippage = "주문 시점과 확인 시점 사이에 가격이 변동되는 현상을 '슬리패지'라고 합니다. 슬리패지가 '최대 슬리패지' 설정을 초과하면 스왑이 자동으로 취소됩니다.";
+const transaction = "Simulate transactions before submitting to decrease transaction costs and reduce failures.";
 
 export default function Swap() {
   const { isLoading, data } = useQuery("coins", () => {
     return fetch(`https://api.coinpaprika.com/v1/coins`).then((res) => res.json());
   });
+
   const [alignment, setAlignment] = useState("a");
+  const [optionOpen, setOptionOpen] = useState(false);
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
 
-  const [optionOpen, setOptionOpen] = useState(false);
-
   return (
     <>
-      {!isLoading && (
-        <Container sx={{ minWidth: "80vw", mt: 2, display: "flex", justifyContent: "center" }}>
-          <Box sx={{ minWidth: "25vw", boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)" }}>
+      <Container sx={{ minWidth: "100%", mt: 2, display: "flex", justifyContent: "center" }}>
+        {!isLoading && (
+          <Box sx={{ minWidth: "40%", width: "25vw", boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)" }}>
             <TopContainer>
               <Box />
               <Typography sx={{ ml: 8, fontWeight: 600 }}>스왑</Typography>
@@ -52,14 +53,30 @@ export default function Swap() {
                   sx={{ display: "flex", alignItems: "center", fontSize: "0.85em", color: "#1c7ed6", fontWeight: 800, cursor: "pointer" }}
                   onClick={() => setOptionOpen(!optionOpen)}
                 >
-                  고급 옵션 {optionOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                  고급 옵션 {optionOpen ? <ArrowDropUp /> : <ArrowDropDown />}
                 </Box>
               </Box>
-              <Box sx={{ minWidth: "55%", height: "10vh", display: "flex", flexDirection: "column" }}>
+              <Box sx={{ minWidth: "65%", height: "10vh", display: "flex", flexDirection: "column" }}>
                 {optionOpen ? (
                   <>
                     <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
                       <Typography sx={{ fontSize: "0.8em", fontWeight: 800 }}>슬래피지 허용치</Typography>
+                      <Tooltip
+                        title={<Typography sx={{ color: "#495057", fontSize: "0.6em", m: 1 }}>{slippage}</Typography>}
+                        componentsProps={{
+                          tooltip: {
+                            sx: {
+                              maxWidth: "10.3vw",
+                              backgroundColor: "#FFF",
+                              boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+                              transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
+                            },
+                          },
+                        }}
+                        placement="top"
+                      >
+                        <Info sx={{ fontSize: "0.8em", ml: 1 }} />
+                      </Tooltip>
                       <ToggleButtonGroup
                         sx={{
                           "& .MuiToggleButtonGroup-grouped": {
@@ -95,9 +112,24 @@ export default function Swap() {
                         </ToggleButton>
                       </ToggleButtonGroup>
                     </Box>
-                    <Box sx={{ width: "90%", mt: 1, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <Box sx={{ minWidth: "100%", mt: 1, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <Typography sx={{ fontSize: "0.8em", fontWeight: 800 }}>Smart Transaction</Typography>
-
+                      <Tooltip
+                        title={<Typography sx={{ color: "#495057", fontSize: "0.6em", m: 0.5 }}>{transaction}</Typography>}
+                        componentsProps={{
+                          tooltip: {
+                            sx: {
+                              maxWidth: "10vw",
+                              backgroundColor: "#FFF",
+                              boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+                              transition: "all 0.3s cubic-bezier(.25,.8,.25,1)",
+                            },
+                          },
+                        }}
+                        placement="top"
+                      >
+                        <Info sx={{ fontSize: "0.8em", mr: 4 }} />
+                      </Tooltip>
                       <ButtonElement />
                     </Box>
                   </>
@@ -111,14 +143,14 @@ export default function Swap() {
                 </Button>
               </Box>
               <Box sx={{ width: "75%", mt: 3, mb: 2, display: "flex", justifyContent: "center" }}>
-                <Link sx={{ fontSize: "0.7em", textDecoration: "none" }} onClick={() => window.open("https://consensys.net/terms-of-use/")}>
+                <Link sx={{ fontSize: "0.7em", textDecoration: "none", cursor: "pointer" }} onClick={() => window.open("https://consensys.net/terms-of-use/")}>
                   서비스 약관
                 </Link>
               </Box>
             </SwapContainer>
           </Box>
-        </Container>
-      )}
+        )}
+      </Container>
     </>
   );
 }
