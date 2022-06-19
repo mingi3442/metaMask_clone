@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 const toSwapInfo = "여러 토큰이 같은 이름과 기호를 사용할 수 있습니다. Etherscan에서 원하는 토큰인지 확인하세요.";
 
 export default function SwapElement({ data }) {
-  const { isLoading, data: etherPrice } = useQuery("etherPrice", () => {
+  const { data: etherPrice } = useQuery("etherPrice", () => {
     return fetch(`https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,EUR`).then((res) => res.json());
   });
   const [fromValue, setFromValue] = useState("");
@@ -15,7 +15,6 @@ export default function SwapElement({ data }) {
   const [transferToEth, setTransferToEth] = useState(0);
   const fromAmountOnChange = (event) => {
     if (parseFloat(event.target.value) && parseFloat(event.target.value) > 0 && fromValue === "ETH") {
-      console.log(typeof parseFloat(event.target.value));
       setTransferToEth((etherPrice.USD * parseFloat(event.target.value)).toFixed(2));
     }
   };
@@ -67,6 +66,9 @@ export default function SwapElement({ data }) {
             sx={{ minWidth: "10vw" }}
             placeholder="0"
             onChange={fromAmountOnChange}
+            definitions={{
+              "#": /[1-9]/,
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
