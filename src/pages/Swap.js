@@ -38,9 +38,9 @@ export default function Swap() {
 
   return (
     <>
-      <Container sx={{ minWidth: "100%", mt: 2, display: "flex", justifyContent: "center" }}>
+      <Container sx={{ minWidth: "70%", mt: 2, display: "flex", justifyContent: "center" }}>
         {!isLoading && (
-          <Box sx={{ minWidth: "40%", width: "25vw", boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)" }}>
+          <Box sx={{ minWidth: "40%", width: "18vw", boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)" }}>
             <TopContainer>
               <Box />
               <Typography sx={{ ml: 8, fontWeight: 600 }}>스왑</Typography>
@@ -137,12 +137,12 @@ export default function Swap() {
                   ""
                 )}
               </Box>
-              <Box sx={{ width: "75%", mt: 3, display: "flex", justifyContent: "center" }}>
-                <Button sx={{ padding: " 0.5vh 7vw", backgroundColor: "#a5d8ff" }} disabled variant="outlined">
+              <Box sx={{ width: "75%", mt: 2, display: "flex", justifyContent: "center" }}>
+                <Button sx={{ padding: " 1vh 7vw", backgroundColor: "#a5d8ff" }} disabled variant="outlined">
                   <Typography sx={{ color: "#fff", fontSize: "0.8em" }}>스왑 검토</Typography>
                 </Button>
               </Box>
-              <Box sx={{ width: "75%", mt: 3, mb: 2, display: "flex", justifyContent: "center" }}>
+              <Box sx={{ width: "75%", mt: 4, mb: 3, display: "flex", justifyContent: "center" }}>
                 <Link sx={{ fontSize: "0.7em", textDecoration: "none", cursor: "pointer" }} onClick={() => window.open("https://consensys.net/terms-of-use/")}>
                   서비스 약관
                 </Link>

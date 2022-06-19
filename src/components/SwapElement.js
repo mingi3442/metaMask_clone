@@ -1,13 +1,24 @@
-import { Autocomplete, Avatar, IconButton, Link, MenuItem, TextField, Tooltip, Typography } from "@mui/material";
+import { Autocomplete, Avatar, IconButton, InputAdornment, Link, MenuItem, TextField, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { Info, SwapVert } from "@mui/icons-material";
+import { useQuery } from "react-query";
 
 const toSwapInfo = "여러 토큰이 같은 이름과 기호를 사용할 수 있습니다. Etherscan에서 원하는 토큰인지 확인하세요.";
 
 export default function SwapElement({ data }) {
+  const { isLoading, data: etherPrice } = useQuery("etherPrice", () => {
+    return fetch(`https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,EUR`).then((res) => res.json());
+  });
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
+  const [transferToEth, setTransferToEth] = useState(0);
+  const fromAmountOnChange = (event) => {
+    if (parseFloat(event.target.value) && parseFloat(event.target.value) > 0 && fromValue === "ETH") {
+      console.log(typeof parseFloat(event.target.value));
+      setTransferToEth((etherPrice.USD * parseFloat(event.target.value)).toFixed(2));
+    }
+  };
   const transferClick = () => {
     const value = fromValue;
     setFromValue(toValue);
@@ -15,19 +26,18 @@ export default function SwapElement({ data }) {
   };
   return (
     <>
-      <Box sx={{ width: "75%", mt: 5 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+      <Box sx={{ minWidth: "75%", width: "75%", mt: 5 }}>
+        <Box sx={{ minWidth: "75%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
           <Typography sx={{ fontWeight: 600 }}>다음에서 스왑</Typography>
           <Typography sx={{ fontSize: "0.65em", color: "#1c7ed6", cursor: "pointer" }}>최대</Typography>
         </Box>
-        <Box sx={{ minWidth: "100%", display: "flex", alignItems: "flex-end", mt: 1.5 }}>
+        <Box sx={{ minWidth: "75%", display: "flex", alignItems: "flex-end", mt: 1.5 }}>
           <Autocomplete
             value={fromValue}
             onChange={(event, newValue) => {
               setFromValue(newValue.symbol);
             }}
             disableClearable
-            sx={{ minwidth: "25vw" }}
             options={data}
             getOptionLabel={(option) => {
               if (option.symbol) return option.symbol;
@@ -44,7 +54,7 @@ export default function SwapElement({ data }) {
             )}
             renderInput={(params) => (
               <TextField
-                sx={{ minWidth: "10vw" }}
+                sx={{ minWidth: "10.5vw" }}
                 placeholder="선택"
                 {...params}
                 inputProps={{
@@ -53,7 +63,22 @@ export default function SwapElement({ data }) {
               />
             )}
           />
-          <TextField placeholder="0" />
+          <TextField
+            sx={{ minWidth: "10vw" }}
+            placeholder="0"
+            onChange={fromAmountOnChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {fromValue === "ETH" ? (
+                    <Typography sx={{ fontSize: "0.6em", minWidth: "0.5vw" }}>≈ ${transferToEth}</Typography>
+                  ) : (
+                    <Typography sx={{ fontSize: "0.6em", minWidth: "0.5vw" }}></Typography>
+                  )}
+                </InputAdornment>
+              ),
+            }}
+          />
         </Box>
         {fromValue !== "" ? (
           <Typography align="left" sx={{ fontSize: "0.7em" }}>
@@ -76,7 +101,7 @@ export default function SwapElement({ data }) {
             setToValue(newValue.symbol);
           }}
           disableClearable
-          sx={{ minwidth: "25vw", mt: 1.5 }}
+          sx={{ minwidth: "20vw", mt: 1.5 }}
           options={data}
           getOptionLabel={(option) => {
             if (option.symbol) return option.symbol;
@@ -93,7 +118,7 @@ export default function SwapElement({ data }) {
           )}
           renderInput={(params) => (
             <TextField
-              sx={{ minWidth: "10vw" }}
+              sx={{}}
               placeholder="토큰 검색"
               {...params}
               inputProps={{
