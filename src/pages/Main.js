@@ -62,7 +62,6 @@ const BtnContainer = styled(Link)`
 
   const [clicked, setClicked] = useState(false);
   const [value, setValue] = useState("1");
-  console.log(aa);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

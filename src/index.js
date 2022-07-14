@@ -17,7 +17,7 @@ export const storeContext = React.createContext({
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <>
     <Reset />
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
@@ -30,7 +30,7 @@ root.render(
         {/* </Provider> */}
       </QueryClientProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function
