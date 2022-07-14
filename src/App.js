@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Router from "./Router";
 import styled from "styled-components";
+import { useObserver } from "mobx-react";
 
 const Container = styled.div`
   background-color: #e9ecef;
@@ -9,12 +10,12 @@ const Container = styled.div`
 `;
 
 function App() {
-  return (
+  return useObserver(() => (
     <Container>
       <Header />
       <Router />
     </Container>
-  );
+  ));
 }
 
 export default App;

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { QuestionAnswer, Download, Settings, Add, Usb, Check } from "@mui/icons-material";
 import { Avatar, Box, Button, Chip, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../reducers/accountReducer";
+// import { useDispatch, useSelector } from "react-redux";
+// import { setUser } from "../reducers/accountReducer";
+import indexStore from "../stores/IndexStore";
+import AccountStore from "../stores/AccountStore";
+import { autorun } from "mobx";
 
-export default function UserMenu() {
+ function UserMenu() {
   const accounts = [
     {
       id: 0,
@@ -32,8 +35,11 @@ export default function UserMenu() {
     },
   ];
 
-  const state = useSelector((state) => state.setAccount);
-  const dispatch = useDispatch();
+  // const state = useSelector((state) => state.setAccount);
+  const {
+    AccountStore: { user: state },
+  } = indexStore();
+  // const dispatch = useDispatch();
   const [accountEl, setAccountEl] = useState(null);
   const open = Boolean(accountEl);
   const handleClick = (event) => {
@@ -78,7 +84,16 @@ export default function UserMenu() {
         <Divider />
         {accounts.map((account, idx) => {
           return (
-            <MenuItem onClick={() => dispatch(setUser(accounts[account.id]))} value={account.id} key={idx}>
+            <MenuItem
+              // onClick={() => dispatch(setUser(accounts[account.id]))}
+              onClick={() =>
+                autorun(() => {
+                  AccountStore.setUser(accounts[account.id]);
+                })
+              }
+              value={account.id}
+              key={idx}
+            >
               <ListItemIcon>{state.id === account.id ? <Check fontSize="small" /> : null}</ListItemIcon>
               <Avatar alt={account.name} src={account.profile} />
               <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -125,3 +140,4 @@ export default function UserMenu() {
     </>
   );
 }
+export default UserMenu

@@ -1,16 +1,20 @@
 import { Button, IconButton, Tab, Tooltip, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AccountMenu from "../components/AccountMenu";
 import { Download, CallMade, SwapHoriz } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import Asset from "../components/Asset";
 import Activity from "../components/Activity";
+import indexStore from "../stores/IndexStore";
+import { observer, useLocalStore, useObserver } from "mobx-react";
+import StoreProvider from "../stores/Context";
+import AccountStore from "../stores/AccountStore";
 
 const InfoContainer = styled.div`
   background-color: #fff;
@@ -46,11 +50,19 @@ const BtnContainer = styled(Link)`
   text-decoration: none;
 `;
 
-export default function Main() {
-  const state = useSelector((state) => state.setAccount);
+ function Main({ AccountStore: aa }) {
+  // const state = useSelector((state) => state.setAccount);
+  // const state = useContext(StoreProvider);
+  // console.log(state);
+  // const state = useLocalStore()
+  const {
+    AccountStore: { user: state },
+  } = indexStore();
+  // const { user: state } = AccountStore;
+
   const [clicked, setClicked] = useState(false);
   const [value, setValue] = useState("1");
-
+  console.log(aa);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -72,7 +84,8 @@ export default function Main() {
             <Button sx={{ ml: 5, display: "flex", flexDirection: "column", padding: "0 8vw" }}>
               <Typography sx={{ color: "black", fontSize: "1.2em", margin: "2px 0", textTransform: "none" }}>{state.name}</Typography>
               <Typography sx={{ fontSize: "0.8em", fontWeight: 200, color: "#868e96" }}>
-                {state.address.slice(0, 5) + "..." + state.address.slice(-4)} <ContentCopyIcon sx={{ fontSize: "0.8em", color: "black" }} />
+                {state.address.slice(0, 5) + "..." + state.address.slice(-4)}
+                <ContentCopyIcon sx={{ fontSize: "0.8em", color: "black" }} />
               </Typography>
             </Button>
           </Tooltip>
@@ -161,3 +174,6 @@ export default function Main() {
     </Container>
   );
 }
+
+
+export default observer(Main);
