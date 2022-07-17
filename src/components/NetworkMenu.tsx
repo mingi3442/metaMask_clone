@@ -1,10 +1,16 @@
+import * as React from "react";
 import { KeyboardArrowDown, Check } from "@mui/icons-material";
 import { Button, Divider, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import styled from "styled-components";
+interface ICircle {
+  bottom: boolean;
+  top: boolean;
+  color: string;
+}
 
-const Cricle = styled.div`
+const Cricle = styled.div<ICircle>`
   margin-right: ${(props) => (props.bottom ? "15px" : "5px")};
   margin-left: ${(props) => (props.top ? "15px" : "0px")};
   width: 10px;
@@ -49,20 +55,20 @@ export default function NetworkMenu() {
   const [selected, setSelected] = useState(netWorks[0]);
   const [networkEl, setNetworkEl] = useState(null);
   const open = Boolean(networkEl);
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setNetworkEl(event.currentTarget);
   };
   const handleClose = () => {
     setNetworkEl(null);
   };
-  const selectNetwork = (event) => {
-    setSelected(netWorks[event.currentTarget.value]);
+  const selectNetwork = (event: React.MouseEvent<HTMLElement>, idx: number) => {
+    setSelected(netWorks[idx]);
   };
   return (
     <>
       <Tooltip title="">
         <Button variant="outlined" onClick={handleClick} sx={{ p: 0, borderRadius: "20px", textTransform: "none", color: "#868e96", borderColor: "#868e96" }}>
-          <Cricle top={true} color={selected.color === "#ced4da" ? "black" : selected.color} />
+          <Cricle top={true} bottom={false} color={selected.color === "#ced4da" ? "black" : selected.color} />
           <Typography sx={{ fontSize: "0.85em", margin: "0 5px" }}>{selected.name}</Typography>
           <KeyboardArrowDown sx={{ fontSize: "1.2em", mr: 1.5 }} />
         </Button>
@@ -90,9 +96,10 @@ export default function NetworkMenu() {
         <Divider />
         {netWorks.map((network, idx) => {
           return (
-            <MenuItem value={network.id} key={idx} onClick={selectNetwork} sx={{ margin: "20px 25px 10px 5px" }}>
+            <MenuItem value={network.id} key={idx} onClick={(event) => selectNetwork(event, idx)} sx={{ margin: "20px 25px 10px 5px" }}>
               <ListItemIcon>{idx === selected.id ? <Check sx={{ color: "#40c057" }} /> : null}</ListItemIcon>
-              <Cricle bottom={true} color={network.color} />
+              <Cricle top={false} bottom={true} color={network.color} />
+              <Typography sx={{ visibility: "hidden" }}>{network.id}</Typography>
               <Typography sx={{ fontSize: "0.9em", color: `${idx === selected.id ? "#212529" : "#495057"} ` }}>{network.name}</Typography>
             </MenuItem>
           );

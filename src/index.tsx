@@ -7,15 +7,15 @@ import { Reset } from "styled-reset";
 // import store from "./store";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import StoreProvider from "./stores/Context";
+// import StoreProvider from "./stores/Context";
 import AccountStore from "./stores/AccountStore";
 import { Provider } from "mobx-react";
 
-export const storeContext = React.createContext({
-  AccountStore,
-});
+// export const storeContext = React.createContext({
+//   AccountStore,
+// });
 const queryClient = new QueryClient();
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <>
     <Reset />

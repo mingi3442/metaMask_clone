@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useState } from "react";
 import { QuestionAnswer, Download, Settings, Add, Usb, Check } from "@mui/icons-material";
 import { Avatar, Box, Button, Chip, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
@@ -5,9 +6,8 @@ import { Avatar, Box, Button, Chip, Divider, IconButton, ListItemIcon, Menu, Men
 // import { setUser } from "../reducers/accountReducer";
 import indexStore from "../stores/IndexStore";
 import AccountStore from "../stores/AccountStore";
-import { autorun } from "mobx";
 
- function UserMenu() {
+function UserMenu() {
   const accounts = [
     {
       id: 0,
@@ -42,7 +42,7 @@ import { autorun } from "mobx";
   // const dispatch = useDispatch();
   const [accountEl, setAccountEl] = useState(null);
   const open = Boolean(accountEl);
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAccountEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -86,11 +86,7 @@ import { autorun } from "mobx";
           return (
             <MenuItem
               // onClick={() => dispatch(setUser(accounts[account.id]))}
-              onClick={() =>
-                autorun(() => {
-                  AccountStore.setUser(accounts[account.id]);
-                })
-              }
+              onClick={() => AccountStore.setUser(accounts[account.id])}
               value={account.id}
               key={idx}
             >
@@ -140,4 +136,4 @@ import { autorun } from "mobx";
     </>
   );
 }
-export default UserMenu
+export default UserMenu;

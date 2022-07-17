@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Button, Container, Link, ToggleButton, ToggleButtonGroup, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
@@ -24,15 +25,26 @@ const SwapContainer = styled.div`
 `;
 const slippage = "주문 시점과 확인 시점 사이에 가격이 변동되는 현상을 '슬리패지'라고 합니다. 슬리패지가 '최대 슬리패지' 설정을 초과하면 스왑이 자동으로 취소됩니다.";
 const transaction = "Simulate transactions before submitting to decrease transaction costs and reduce failures.";
+type Slippage = "a" | "b" | "c";
+export interface ICoin {
+  id: string;
+  is_active: boolean;
+  is_new: boolean;
+  name: string;
+  rank: number;
+  symbol: string;
+  type: string;
+}
 
 export default function Swap() {
-  const { isLoading, data } = useQuery("coins", () => {
+  const { isLoading, data } = useQuery<ICoin[]>("coins", () => {
     return fetch(`https://api.coinpaprika.com/v1/coins`).then((res) => res.json());
   });
 
   const [alignment, setAlignment] = useState("a");
   const [optionOpen, setOptionOpen] = useState(false);
-  const handleChange = (event, newAlignment) => {
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: Slippage) => {
+    console.log(newAlignment);
     setAlignment(newAlignment);
   };
 
@@ -60,7 +72,7 @@ export default function Swap() {
                 {optionOpen ? (
                   <>
                     <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
-                      <Typography sx={{ fontSize: "0.8em", fontWeight: 800 }}>슬래피지 허용치</Typography>
+                      <Typography sx={{ fontSize: "0.8em", fontWeight: 800 }}>슬리패지 허용치</Typography>
                       <Tooltip
                         title={<Typography sx={{ color: "#495057", fontSize: "0.6em", m: 1 }}>{slippage}</Typography>}
                         componentsProps={{

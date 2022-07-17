@@ -1,7 +1,13 @@
+import * as React from "react";
 import { Box, Link, List, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { ArrowForwardIos } from "@mui/icons-material/";
 import styled from "styled-components";
 import MainBottom from "./MainBottom";
+import { IUser } from "../stores/AccountStore";
+
+interface IProps {
+  state: IUser;
+}
 
 const Container = styled.div`
   width: 100%;
@@ -21,7 +27,7 @@ const TopContents = styled.div`
   flex: 1;
 `;
 
-export default function Asset({ state }) {
+export default function Asset({ state }: IProps) {
   return (
     <Container>
       <TopContents>

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Button, IconButton, Tab, Tooltip, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 // import { useSelector } from "react-redux";
@@ -50,7 +51,7 @@ const BtnContainer = styled(Link)`
   text-decoration: none;
 `;
 
- function Main({ AccountStore: aa }) {
+function Main() {
   // const state = useSelector((state) => state.setAccount);
   // const state = useContext(StoreProvider);
   // console.log(state);
@@ -62,7 +63,7 @@ const BtnContainer = styled(Link)`
 
   const [clicked, setClicked] = useState(false);
   const [value, setValue] = useState("1");
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
@@ -173,6 +174,5 @@ const BtnContainer = styled(Link)`
     </Container>
   );
 }
-
 
 export default observer(Main);

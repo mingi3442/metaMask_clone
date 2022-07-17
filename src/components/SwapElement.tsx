@@ -1,23 +1,35 @@
+import * as React from "react";
 import { Autocomplete, Avatar, IconButton, InputAdornment, Link, MenuItem, TextField, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { Info, SwapVert } from "@mui/icons-material";
 import { useQuery } from "react-query";
+import { ICoin } from "../pages/Swap";
+
+interface IEtherPrice {
+  EUR: number;
+  USD: number;
+}
+
+interface IDataProps {
+  data: ICoin[];
+}
 
 const toSwapInfo = "여러 토큰이 같은 이름과 기호를 사용할 수 있습니다. Etherscan에서 원하는 토큰인지 확인하세요.";
 
-export default function SwapElement({ data }) {
-  const { data: etherPrice } = useQuery("etherPrice", () => {
+export default function SwapElement({ data }: IDataProps) {
+  const { data: etherPrice } = useQuery<IEtherPrice>("etherPrice", () => {
     return fetch(`https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD,EUR`).then((res) => res.json());
   });
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
   const [transferToEth, setTransferToEth] = useState(0);
-  const fromAmountOnChange = (event) => {
+  const fromAmountOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (parseFloat(event.target.value) && parseFloat(event.target.value) > 0 && fromValue === "ETH") {
-      setTransferToEth((etherPrice.USD * parseFloat(event.target.value)).toFixed(2));
+      setTransferToEth(parseFloat((etherPrice.USD * parseFloat(event.target.value)).toFixed(2)));
     }
   };
+
   const transferClick = () => {
     const value = fromValue;
     setFromValue(toValue);
@@ -33,15 +45,12 @@ export default function SwapElement({ data }) {
         <Box sx={{ minWidth: "75%", display: "flex", alignItems: "flex-end", mt: 1.5 }}>
           <Autocomplete
             value={fromValue}
-            onChange={(event, newValue) => {
-              setFromValue(newValue.symbol);
+            onChange={(event, { symbol }: ICoin) => {
+              console.log(symbol);
+              setFromValue(symbol);
             }}
             disableClearable
             options={data}
-            getOptionLabel={(option) => {
-              if (option.symbol) return option.symbol;
-              return option;
-            }}
             renderOption={(props, option) => (
               <MenuItem sx={{ p: 1 }} component="li" {...props}>
                 <Avatar sizes="small" alt={option.name} src={`https://raw.githubusercontent.com/condacore/cryptocurrency-icons/master/32x32/${option.name.toLowerCase()}.png`} />
@@ -66,9 +75,6 @@ export default function SwapElement({ data }) {
             sx={{ minWidth: "10vw" }}
             placeholder="0"
             onChange={fromAmountOnChange}
-            definitions={{
-              "#": /[1-9]/,
-            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -99,16 +105,12 @@ export default function SwapElement({ data }) {
         <Typography sx={{ fontWeight: 600 }}>다음으로 스왑</Typography>
         <Autocomplete
           value={toValue}
-          onChange={(event, newValue) => {
-            setToValue(newValue.symbol);
+          onChange={(event, { symbol }: ICoin) => {
+            setToValue(symbol);
           }}
           disableClearable
           sx={{ minwidth: "20vw", mt: 1.5 }}
           options={data}
-          getOptionLabel={(option) => {
-            if (option.symbol) return option.symbol;
-            return option;
-          }}
           renderOption={(props, option) => (
             <MenuItem component="li" {...props}>
               <Avatar alt={option.name} src={`https://raw.githubusercontent.com/condacore/cryptocurrency-icons/master/32x32/${option.name.toLowerCase()}.png`} />

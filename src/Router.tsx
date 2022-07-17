@@ -1,3 +1,4 @@
+import React from "react";
 import { useObserver } from "mobx-react";
 import { Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";

@@ -1,3 +1,4 @@
+import React from "react";
 import Header from "./components/Header";
 import Router from "./Router";
 import styled from "styled-components";
@@ -10,12 +11,12 @@ const Container = styled.div`
 `;
 
 function App() {
-  return useObserver(() => (
+  return (
     <Container>
       <Header />
       <Router />
     </Container>
-  ));
+  );
 }
 
 export default App;

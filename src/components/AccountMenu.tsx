@@ -1,3 +1,4 @@
+import * as React from "react";
 import { IconButton, ListItemIcon, Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -5,7 +6,7 @@ import { OpenInNew, Delete, DashboardCustomize, ModeStandby } from "@mui/icons-m
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {

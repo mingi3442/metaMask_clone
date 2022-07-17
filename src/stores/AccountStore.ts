@@ -1,4 +1,13 @@
+import * as React from "react";
 import { observable, makeAutoObservable, action } from "mobx";
+
+export interface IUser {
+  id: number;
+  name: string;
+  profile: string;
+  address: string;
+  eth: number;
+}
 
 const AccountStore = observable({
   // state
@@ -12,7 +21,7 @@ const AccountStore = observable({
   },
 
   // action
-  setUser: action((account) => {
+  setUser: action((account: IUser) => {
     AccountStore.user = { ...account };
   }),
 });

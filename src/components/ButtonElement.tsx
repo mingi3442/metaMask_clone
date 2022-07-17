@@ -1,3 +1,4 @@
+import * as React from "react";
 import { styled, Switch, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
@@ -43,7 +44,7 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function ButtonElement({ data }) {
+export default function ButtonElement() {
   const [on, setOn] = useState(true);
   return (
     <Box onClick={() => setOn(!on)} sx={{ display: "flex", alignItems: "center", mr: 3 }}>
